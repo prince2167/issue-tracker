@@ -2,7 +2,7 @@
 
 import { Button, Callout, Text, TextField } from "@radix-ui/themes";
 import { useForm, Controller } from "react-hook-form";
-import SimpleMDE from "react-simplemde-editor";
+import dynamic from "next/dynamic";
 import "easymde/dist/easymde.min.css";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,10 @@ import { createIssueSchema } from "@/validationSchemas";
 import { z } from "zod";
 import ErrorMessage from "@/components/ErrorMessage";
 import Spinner from "@/components/Spinner";
+
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -41,7 +45,7 @@ const NewIssuePage = () => {
       setIsSubmitting(false);
     }
   });
-  
+
   return (
     <div className="max-w-2xl ">
       {error && (
