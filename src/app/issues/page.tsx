@@ -3,7 +3,7 @@ import prisma from "../../../prisma/client";
 import IssueStatusBadgae from "@/components/IssueStatusBadgae";
 import delay from "delay";
 import IssueAction from "./IssueAction";
-import Link from "next/link";
+import Link from "@/components/Link";
 const IssuesPage = async () => {
   const issues = await prisma.issue.findMany();
   await delay(2000);
