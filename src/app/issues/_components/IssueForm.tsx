@@ -8,7 +8,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createIssueSchema } from "@/validationSchemas";
+import { IssueSchema } from "@/validationSchemas";
 import { z } from "zod";
 import ErrorMessage from "@/components/ErrorMessage";
 import Spinner from "@/components/Spinner";
@@ -18,7 +18,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof IssueSchema>;
 
 const IssueForm = ({ issue }: { issue: Issue }) => {
   const router = useRouter();
@@ -28,7 +28,7 @@ const IssueForm = ({ issue }: { issue: Issue }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<IssueFormData>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(IssueSchema),
   });
 
   const [error, setErorr] = useState("");
@@ -37,8 +37,10 @@ const IssueForm = ({ issue }: { issue: Issue }) => {
   const submitFormHandler = handleSubmit(async (data) => {
     try {
       setIsSubmitting(true);
-      await axios.post("/api/issues", data);
+      if (issue) await axios.patch("/api/issues/" + issue.id, data);
+      else await axios.post("/api/issues", data);
       router.push("/issues");
+      router.refresh()
     } catch (error) {
       setIsSubmitting(false);
       setErorr("An unexpected error occured.");
@@ -75,7 +77,8 @@ const IssueForm = ({ issue }: { issue: Issue }) => {
         <ErrorMessage>{errors?.description?.message}</ErrorMessage>
 
         <Button disabled={isSubmitting} className="cursor-pointer">
-          Create new issue {isSubmitting && <Spinner />}
+          {issue ? "Update Issue" : "Create new issue"}{" "}
+          {isSubmitting && <Spinner />}
         </Button>
       </form>
     </div>

@@ -13,7 +13,7 @@ export async function PATCH(
     return NextResponse.json(validation.error.format(), { status: 400 });
   }
 
-  const issue = prisma.issue.findUnique({
+  const issue = await prisma.issue.findUnique({
     where: { id: parseInt(params.id) },
   });
 
@@ -22,12 +22,13 @@ export async function PATCH(
   }
 
   const updatedIssue = await prisma.issue.update({
-    where: { id: parseInt(params.id) },
+    where: { id: issue.id },
     data: {
-      title: body.title,
-      description: body.description,
+      title:body.title,
+      description:body.description,
     },
   });
+
 
   return NextResponse.json(updatedIssue);
 }
