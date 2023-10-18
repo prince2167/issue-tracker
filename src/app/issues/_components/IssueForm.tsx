@@ -50,7 +50,7 @@ const IssueForm = ({ issue }: { issue: Issue }) => {
   });
 
   return (
-    <div className="max-w-2xl ">
+    <div className="max-w-xl ">
       {error && (
         <Callout.Root color="red" className="mb-5">
           <Callout.Text>{error} </Callout.Text>
