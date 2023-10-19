@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 const EditIssueButton = ({ issueId }: { issueId: number }) => {
   const router = useRouter();
   return (
-    <Button className="cursor-pointer" onClick={() => router.push(`/issues/${issueId}/edit`)}>
+    <Button className="cursor-pointer" onClick={() => router.push(`/issues/edit/${issueId}`)}>
       <Pencil2Icon />
       Edit Issue
     </Button>
