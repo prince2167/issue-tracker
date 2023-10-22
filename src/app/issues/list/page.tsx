@@ -8,7 +8,7 @@ import { Issue, Status } from "@prisma/client";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
 
 interface Props {
-  searchParams: { status: Status, orderBy:keyof Issue };
+  searchParams: { status: Status; orderBy: keyof Issue };
 }
 
 const columns: { label: string; value: keyof Issue; className?: string }[] = [
@@ -23,10 +23,17 @@ const IssuesPage = async ({ searchParams }: Props) => {
     ? searchParams.status
     : undefined;
 
+  const orderBy = columns
+    .map((column) => column.value)
+    .includes(searchParams.orderBy)
+    ? { [searchParams.orderBy]: "asc" }
+    : undefined;
+
   const issues = await prisma.issue.findMany({
     where: {
       status,
     },
+    orderBy,
   });
   await delay(2000);
   return (
@@ -44,7 +51,9 @@ const IssuesPage = async ({ searchParams }: Props) => {
                 >
                   {column.label}
                 </NextLink>
-                {column.value===searchParams.orderBy && <ArrowUpIcon className="inline"/>}
+                {column.value === searchParams.orderBy && (
+                  <ArrowUpIcon className="inline" />
+                )}
               </Table.ColumnHeaderCell>
             ))}
           </Table.Row>
