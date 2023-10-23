@@ -1,6 +1,9 @@
+import { Pagination } from "@/components";
 
 export default function Home() {
   return (
-    <main>Issue Tracker </main>
-  )
+    <main>
+      <Pagination itemsCount={100} pageSize={10} currentPage={2} />
+    </main>
+  );
 }
