@@ -24,14 +24,18 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
   return (
     <div>
       <Select.Root
+        defaultValue={issue.assignedToUserId || ""}
         onValueChange={(userId) => {
-          axios.patch("/api/issue/" + issue.id, { assignedToUserId: userId });
+          axios.patch("/api/issues/" + issue.id, {
+            assignedToUserId: userId || null,
+          });
         }}
       >
         <Select.Trigger placeholder="Assign..." className="w-full" />
         <Select.Content>
           <Select.Group>
             <Select.Label>Suggestions</Select.Label>
+            <Select.Item value="">Unassigned</Select.Item>
             {users?.map((user) => (
               <Select.Item key={user.id} value={user.id}>
                 {user.name}
