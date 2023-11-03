@@ -7,7 +7,6 @@ import DeleteIssueButton from "./DeleteIssueButton";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 import AssigneeSelect from "./AssigneeSelect";
-import { Metadata } from "next";
 import { cache } from "react";
 
 interface Props {
