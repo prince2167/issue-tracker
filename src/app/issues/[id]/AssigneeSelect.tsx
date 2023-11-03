@@ -4,6 +4,7 @@ import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Skeleton } from "@/components";
+import toast from "react-hot-toast";
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
   const {
@@ -25,10 +26,14 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     <div>
       <Select.Root
         defaultValue={issue.assignedToUserId || ""}
-        onValueChange={(userId) => {
-          axios.patch("/api/issues/" + issue.id, {
-            assignedToUserId: userId || null,
-          });
+        onValueChange={async (userId) => {
+          try {
+            await axios.patch("/api/issues/" + issue.id, {
+              assignedToUserId: userId || null,
+            });
+          } catch (error) {
+            toast.error("Changes could not be saved");
+          }
         }}
       >
         <Select.Trigger placeholder="Assign..." className="w-full" />
