@@ -3,11 +3,8 @@ import "./theme-config.css";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Container, Theme } from "@radix-ui/themes";
+import { Container } from "@radix-ui/themes";
 import Navbar from "./Navbar";
-import AuthProvider from "./auth/provider";
-import QueryClientProvider from "@/app/QueryClientProvider";
-import { Toaster } from "react-hot-toast";
 import Provider from "./Provider";
 
 const inter = Inter({
