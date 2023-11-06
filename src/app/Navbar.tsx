@@ -4,7 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
 import classnames from "classnames";
-import {Skeleton} from "@/components"
+import { Skeleton } from "@/components";
+import { useSession } from "next-auth/react";
+import ThemeToggle from "./ThemeToggle";
 import {
   Avatar,
   Box,
@@ -13,7 +15,6 @@ import {
   Flex,
   Text,
 } from "@radix-ui/themes";
-import { useSession } from "next-auth/react";
 
 const Navbar = () => {
   return (
@@ -26,7 +27,10 @@ const Navbar = () => {
             </Link>
             <NavLinks />
           </Flex>
-          <AuthStatus />
+          <Flex align="center" gap="3">
+            <ThemeToggle />
+            <AuthStatus />
+          </Flex>
         </Flex>
       </Container>
     </nav>
@@ -49,6 +53,7 @@ const NavLinks = () => {
             className={classnames({
               "nav-link": true,
               "!text-zinc-900": currentPath === link.href,
+              "dark:!text-violet-300 ": currentPath === link.href,
             })}
           >
             {link.label}
@@ -61,9 +66,13 @@ const NavLinks = () => {
 
 const AuthStatus = () => {
   const { status, data: session } = useSession();
-  if (status === "loading") return <Skeleton width="3rem"/>;
+  if (status === "loading") return <Skeleton width="3rem" />;
   if (status === "unauthenticated")
-    return <Link className="nav-link" href="/api/auth/signin">Login</Link>;
+    return (
+      <Link className="nav-link" href="/api/auth/signin">
+        Login
+      </Link>
+    );
   return (
     <Box>
       <DropdownMenu.Root>
