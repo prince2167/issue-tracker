@@ -1,4 +1,3 @@
-import { Pagination } from "@/components";
 import LatestIssues from "./LatestIssues";
 import IssueSummary from "./IssueSummary";
 import prisma from "../../prisma/client";
